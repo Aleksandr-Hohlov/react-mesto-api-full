@@ -1,0 +1,15 @@
+.login__input {
+    border: none;
+    border-bottom: 2px solid rgba(	204, 204, 204, 1);
+    margin-bottom: 30px;
+    background: none;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #CCCCCC;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}

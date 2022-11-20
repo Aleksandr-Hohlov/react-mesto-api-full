@@ -1,0 +1,7 @@
+.header__info {
+    font-size: 18px;
+    line-height: 22px;
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+  }
