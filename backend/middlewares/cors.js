@@ -1,5 +1,11 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
-const allowedCors = ['https://praktikum.tk', 'http://praktikum.tk', 'localhost:3000'];
+const allowedCors = [
+  'https://praktikum.tk',
+  'http://praktikum.tk',
+  'localhost:3000',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club//users/me',
+];
 
 const cors = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
