@@ -4,6 +4,8 @@ const allowedCors = [
   'http://praktikum.tk',
   'localhost:3000',
   'http://mesto-avtor-hohlovaleks.nomoredomains.club',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club/cards',
+  'https://mesto-avtor-hohlovaleks.nomoredomains.club',
   'mesto-avtor-hohlovaleks.nomoredomains.club',
 ];
 
