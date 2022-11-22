@@ -5,6 +5,8 @@ const allowedCors = [
   'localhost:3000',
   'http://mesto-avtor-hohlovaleks.nomoredomains.club',
   'http://mesto-avtor-hohlovaleks.nomoredomains.club/cards',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club/',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club/users/me',
   'https://mesto-avtor-hohlovaleks.nomoredomains.club',
   'mesto-avtor-hohlovaleks.nomoredomains.club',
 ];
