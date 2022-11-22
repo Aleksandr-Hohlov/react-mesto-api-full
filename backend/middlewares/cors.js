@@ -9,6 +9,8 @@ const allowedCors = [
   'http://mesto-avtor-hohlovaleks.nomoredomains.club/users/me',
   'https://mesto-avtor-hohlovaleks.nomoredomains.club',
   'mesto-avtor-hohlovaleks.nomoredomains.club',
+  'http://localhost:3000',
+  'http://mesto-avtor-hohlovaleks.nomoredomains.club/users/me',
 ];
 
 const cors = (req, res, next) => {
