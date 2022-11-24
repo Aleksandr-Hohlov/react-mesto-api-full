@@ -43,6 +43,21 @@ function App() {
   });
   const history = useHistory();
 
+  const tokenCheck = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            setUserData({ email: res.data.email });
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   React.useEffect(() => {
     loggedIn &&
       Promise.all([api.getUserInfo(), api.getCards()])
@@ -53,6 +68,13 @@ function App() {
         })
         .catch((err) => console.log(err));
   }, [loggedIn]);
+
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    selectedCard.link ||
+    isInfoToolTipOpen;
 
   React.useEffect(() => {
     function closeByEscape(evt) {
@@ -81,21 +103,6 @@ function App() {
     tokenCheck();
   }, []);
 
-  const tokenCheck = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setUserData({ email: res.data.email });
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  };
-
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -111,13 +118,6 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
-
-  const isOpen =
-    isEditAvatarPopupOpen ||
-    isEditProfilePopupOpen ||
-    isAddPlacePopupOpen ||
-    selectedCard.link ||
-    isInfoToolTipOpen;
 
   function handleUpdateUser(data) {
     api
@@ -202,6 +202,7 @@ function App() {
   };
 
   const handleRegister = ({ email, password }) => {
+    console.log(email, password);
     auth
       .register(email, password)
       .then((res) => {
@@ -212,7 +213,6 @@ function App() {
         }
       })
       .catch((err) => {
-        console.error(err);
         setIsDataSet(false);
         setTooltipStatus(false);
         setIsInfoToolTipOpen(true);
@@ -294,7 +294,7 @@ function App() {
 
 export default App;
 
-/* 
+/*
 <Route exact path="/">
             <Main
               cards={cards}
@@ -306,8 +306,6 @@ export default App;
               onCardDelete={handleCardDelete}
             />
           </Route>
-
-
            <Switch>
           <ProtectedRoute
             loggedIn={loggedIn}
@@ -322,7 +320,6 @@ export default App;
             onCardDelete={handleCardDelete}
             component={Main}
           />
-
           <ProtectedRoute loggedIn={loggedIn} exact path="/">
             <Main
               cards={cards}
@@ -334,6 +331,5 @@ export default App;
               onCardDelete={handleCardDelete}
             />
           </ProtectedRoute>
-
          dasdasds71622@yandex.ru asdasdqwe232343
 */

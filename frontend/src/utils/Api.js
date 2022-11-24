@@ -104,7 +104,7 @@ const api = new Api({
   url: 'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club',
   headers: {
     'Content-type': 'application/json',
-    authorization: '248d9d772294224ebe193d860b7b9cd260a87da2bca19154d6a67e2c94214b6e',
+    authorization: `Bearer ${localStorage.getItem('token')}`,
   },
 });
 

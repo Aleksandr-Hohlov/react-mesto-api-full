@@ -18,6 +18,7 @@ function Login({ handleLogin }) {
     e.preventDefault();
     const { email, password } = data;
     handleLogin(data);
+    console.log(email, password);
   }
 
   return (

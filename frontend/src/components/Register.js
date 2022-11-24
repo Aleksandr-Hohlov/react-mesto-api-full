@@ -19,7 +19,7 @@ function Register({ handleRegister, isDataSet }) {
     e.preventDefault();
     const { email, password } = data;
     handleRegister({ email, password });
-    console.log('handleSubmit');
+    console.log(data);
   }
 
   return (
