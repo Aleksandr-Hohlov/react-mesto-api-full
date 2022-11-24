@@ -1,7 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+
+console.log(process.env.NODE_ENV); // production
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -43,4 +46,11 @@ app.use(handleErrors);
 app.listen(PORT);
 
 // ssh aleks123@158.160.36.89
-// mesto-avtor-HohlovAleks.nomoredomains.club
+// http://mesto-avtor-HohlovAleks.nomoredomains.club
+// api.mesto-avtor-hohlov-al.nomoredomains.club
+// 248d9d772294224ebe193d860b7b9cd260a87da2bca19154d6a67e2c94214b6e
+
+// chmod +x /home/aleks123/react-mesto-api-full/frontend/build
+// root /home/aleks123/react-mesto-api-full/frontend/build
+// sudo chown -R $USER:www-data /home/aleks123/react-mesto-api-full/frontend/build
+// scp -r ./build/* aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/frontend/build
