@@ -101,21 +101,31 @@ export class Api {
 
 //Api
 const api = new Api({
+  url: 'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club',
+  headers: {
+    'Content-type': 'application/json',
+    authorization: '248d9d772294224ebe193d860b7b9cd260a87da2bca19154d6a67e2c94214b6e',
+  },
+});
+
+export default api;
+
+/*
+const api = new Api({
+  url: 'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club',
+  headers: {
+    'Content-type': 'application/json',
+    authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+});
+
+
+const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-47',
   headers: {
     'Content-type': 'application/json',
     authorization: '93622233-6815-45c6-a1af-b3fd0330c20e',
   },
-}); /*
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+});
 
-  */
-/*
-Promise.all([api.getUserInfo(), api.getCards()])
-  .then(([userData, cards]) => {
-    /*userInfo.setUserInfo(userData);
-    userInfo.setUserAvatar(userData);
-    cardsList.renderItems(cards.reverse());*/ export default api;
+*/
