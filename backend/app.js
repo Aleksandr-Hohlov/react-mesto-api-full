@@ -1,56 +1,60 @@
 require('dotenv').config();
+const { errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const helmet = require('helmet');
+const cors = require('cors');
+const { errorHandler } = require('./middlewares/errors');
 
-console.log(process.env.NODE_ENV); // production
-const { errors } = require('celebrate');
+const { cardsRoutes } = require('./routes/cards');
+const { usersRoutes } = require('./routes/users');
+const ErrorNotFound = require('./utils/ErrorNotFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const { PORT = 3000, FRONT_URL = 'http://localhost:3000' } = process.env;
+
 const app = express();
-const { PORT = 3000 } = process.env;
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
-app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+async function main() {
+  await mongoose.connect('mongodb://localhost:27017/mestodb', {
+    useNewUrlParser: true,
+    useUnifiedTopology: false,
+  });
 
-const NotFoundError = require('./errors/NotFoundError');
-const userRouter = require('./routes/users');
-const cardRouter = require('./routes/cards');
-const { loginUser, createUser } = require('./controllers/users');
-const { messageErr } = require('./constants/constants');
-const handleErrors = require('./middlewares/handleErrors');
-const auth = require('./middlewares/auth');
-const { createUserValidation, loginValidation } = require('./middlewares/validation');
-const cors = require('./middlewares/cors');
+  mongoose.set('toObject', { useProjection: true });
+  mongoose.set('toJSON', { useProjection: true });
 
-app.use(requestLogger); // подключаем логгер запросов за ним идут все обработчики роутов
-app.use(cors);
+  app.use(express.json());
+  app.use(
+    cors({
+      origin: FRONT_URL,
+      credentials: true,
+    }),
+  );
+  app.use(cookieParser());
 
-app.post('/signin', loginValidation, loginUser);
-app.post('/signup', createUserValidation, createUser);
-app.use(auth);
-app.use('/cards', cardRouter);
-app.use('/users', userRouter);
+  app.use(requestLogger);
 
-app.use('*', () => {
-  throw new NotFoundError(messageErr.notFound.page);
-});
+  app.get('/crash-test', () => {
+    setTimeout(() => {
+      throw new Error('Сервер сейчас упадёт');
+    }, 0);
+  });
 
-app.use(errorLogger); // нужно подключить после обработчиков роутов и до обработчиков ошибок
-app.use(errors());
-app.use(handleErrors);
+  app.use(usersRoutes);
+  app.use(cardsRoutes);
 
-app.listen(PORT);
+  app.use((req, res, next) => {
+    next(new ErrorNotFound('Страница не найдена'));
+  });
+  app.use(errorLogger);
 
-// ssh aleks123@158.160.36.89
-// http://mesto-avtor-HohlovAleks.nomoredomains.club
-// api.mesto-avtor-hohlov-al.nomoredomains.club
-// 248d9d772294224ebe193d860b7b9cd260a87da2bca19154d6a67e2c94214b6e
+  app.use(errors());
+  app.use(errorHandler);
 
-// chmod +x /home/aleks123/react-mesto-api-full/frontend/build
-// root /home/aleks123/react-mesto-api-full/frontend/build
-// sudo chown -R $USER:www-data /home/aleks123/react-mesto-api-full/frontend/build
-// scp -r ./build/* aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/frontend/build
+  await app.listen(PORT);
+
+  console.log(`Listening on port [:${PORT}]...`);
+}
+
+main();

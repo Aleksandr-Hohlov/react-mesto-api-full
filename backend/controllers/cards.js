@@ -1,98 +1,80 @@
 const Card = require('../models/card');
-const {
-  messageErr,
-  ValidationError,
-  CastError,
-  messageErrDefault,
-  messageSuccessDel,
-} = require('../constants/constants');
+const ErrorNotFound = require('../utils/ErrorNotFound');
+const ErrorRights = require('../utils/ErrorRights');
+const ErrorServerError = require('../utils/ErrorServerError');
+const checkErr = require('../utils/utils');
 
-const BadRequestError = require('../errors/BadRequestError');
-const ForbiddenError = require('../errors/ForbiddenError');
-const NotFoundError = require('../errors/NotFoundError');
-
-const getAllCards = (req, res, next) => {
-  Card.find({})
-    .then((card) => res.send({ card }))
-    .catch((err) => next(err));
+const updCardSettings = {
+  new: true,
 };
 
-const createCard = (req, res, next) => {
-  const { name, link } = req.body;
-  const owner = req.user._id;
-  Card.create({ name, link, owner })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === ValidationError) {
-        next(new BadRequestError(messageErr.badRequest.card));
-      } else {
-        next(err);
-      }
+const checkExist = (card, res, next) => {
+  if (!card) {
+    return next(new ErrorNotFound('Карточка не найдена'));
+  }
+  return res.send(card);
+};
+
+const getCards = (req, res, next) => {
+  Card.find({})
+    .then((cards) => res.send(cards.map((el) => el)))
+    .catch(() => {
+      next(new ErrorServerError('Ошибка сервера'));
     });
 };
 
-const deleteCard = (req, res, next) => {
-  Card.findById(req.params.cardId)
-    .orFail(() => new NotFoundError(messageErr.notFound.card))
-    .then((card) => {
-      if (!card.owner.equals(req.user._id)) {
-        return next(new ForbiddenError(messageErr.badRequest.forbiddenDel));
-      }
-      return card.remove().then(() => res.send({ message: messageSuccessDel }));
-    })
-    .catch(next);
+const createCard = (req, res) => {
+  const { name, link } = req.body;
+  const card = new Card({ name, link });
+
+  card.owner = req.user._id;
+  card.save().then(() => {
+    res.send(card);
+  }).catch((err) => checkErr(err, res));
 };
 
-// prettier-ignore
-const likeCard = (req, res, next) => Card.findByIdAndUpdate(
-  req.params.cardId,
-  { $addToSet: { likes: req.user._id } },
-  {
-    new: true,
-    runValidators: true,
-  },
-)
-  .then((card) => {
+const rmCard = (req, res, next) => {
+  const { id } = req.params;
+  const { _id } = req.user;
+  Card.findById(id).then((card) => {
     if (!card) {
-      throw new NotFoundError(messageErr.notFound.card);
+      return next(new ErrorNotFound('Карточка не найдена'));
     }
-    return res.send(card);
+    const { owner } = card;
+    if (owner.equals(_id)) {
+      return Card.deleteOne({ _id: id })
+        .then(() => res.send({ message: 'Пост удален' }))
+        .catch((err) => checkErr(err, next));
+    }
+    return next(new ErrorRights('Недостаточно прав удалить эту карточку'));
   })
-  .catch((err) => {
-    if (err.name === CastError) {
-      next(new BadRequestError(messageErr.badRequest.cardLike));
-    } else {
-      next(err);
-    }
-  });
+    .catch((err) => checkErr(err, next));
+};
 
-// prettier-ignore
-const dislikeCard = (req, res, next) => Card.findByIdAndUpdate(
-  req.params.cardId,
-  { $pull: { likes: req.user._id } },
-  {
-    new: true,
-    runValidators: true,
-  },
-)
-  .then((card) => {
-    if (!card) {
-      throw new NotFoundError(messageErr.notFound.cardLike);
-    }
-    return res.send(card);
-  })
-  .catch((err) => {
-    if (err.name === CastError) {
-      next(new BadRequestError(messageErrDefault));
-    } else {
-      next(err);
-    }
-  });
+const likeCard = (req, res, next) => {
+  const { id } = req.params;
+  Card.findByIdAndUpdate(
+    id,
+    { $addToSet: { likes: req.user._id } },
+    updCardSettings,
+  ).then((card) => checkExist(card, res, next))
+    .catch((err) => checkErr(err, next));
+};
+
+const dislikeCard = (req, res, next) => {
+  const { id } = req.params;
+  Card.findByIdAndUpdate(
+    id,
+    { $pull: { likes: req.user._id } },
+    updCardSettings,
+  ).then((card) => checkExist(card, res, next))
+    .catch((err) => checkErr(err, next));
+};
 
 module.exports = {
-  getAllCards,
+  getCards,
   createCard,
-  deleteCard,
+  rmCard,
   likeCard,
   dislikeCard,
 };
