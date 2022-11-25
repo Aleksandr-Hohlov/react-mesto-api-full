@@ -14,7 +14,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000, FRONT_URL = 'http://localhost:3000' } = process.env;
 
 const app = express();
-
+console.log(process.env);
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
