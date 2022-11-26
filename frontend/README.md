@@ -18,6 +18,6 @@
 
 ---
 
-**_[Ссылка на проект Mesto-React](https://aleksandr-hohlov.github.io/mesto/)_**
+**_[Ссылка на проект Mesto-React](http://mesto-avtor-hohlovaleks.nomoredomains.club/)_**
 
 ---
