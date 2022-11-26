@@ -1,52 +1,24 @@
-const { celebrate, Joi } = require('celebrate');
-const express = require('express');
-const {
-  createUser, getUsers, getUserById, updUser, updAvatar, login, getMe, logout,
-} = require('../controllers/users');
+const router = require('express').Router();
 const auth = require('../middlewares/auth');
-const { urlRegex } = require('../utils/consts');
+const {
+  userIdValidation,
+  updateUserValidation,
+  updateAvatarValidation,
+} = require('../middlewares/validation');
 
-const usersRoutes = express.Router();
+const {
+  getAllUsers,
+  getUserById,
+  updateUserInfo,
+  updateAvatar,
+  getUser,
+} = require('../controllers/users');
 
-usersRoutes.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(urlRegex),
-  }),
-}), createUser);
-usersRoutes.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+router.use(auth);
+router.get('/', getAllUsers);
+router.get('/me', getUser);
+router.get('/:userId', userIdValidation, getUserById);
+router.patch('/me', updateUserValidation, updateUserInfo);
+router.patch('/me/avatar', updateAvatarValidation, updateAvatar);
 
-usersRoutes.use(auth);
-
-usersRoutes.get('/users', getUsers);
-usersRoutes.get('/users/me', getMe);
-usersRoutes.get('/users/:id', celebrate({
-  params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
-  }),
-}), getUserById);
-
-usersRoutes.patch('/users/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2).max(30),
-  }),
-}), updUser);
-usersRoutes.patch('/users/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().required().regex(urlRegex),
-  }),
-}), updAvatar);
-usersRoutes.delete('/signout', logout);
-
-module.exports = {
-  usersRoutes,
-};
+module.exports = router;
