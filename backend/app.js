@@ -28,6 +28,12 @@ const { createUserValidation, loginValidation } = require('./middlewares/validat
 
 app.use(requestLogger); // подключаем логгер запросов за ним идут все обработчики роутов
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signin', loginValidation, loginUser);
 app.post('/signup', createUserValidation, createUser);
 app.use(auth);
