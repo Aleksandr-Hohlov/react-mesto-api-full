@@ -5,3 +5,7 @@
 **Сайт, размещенный на Яндекс.Облаке**
 
 **_[http://mesto-avtor-hohlovaleks.nomoredomains.club](http://mesto-avtor-hohlovaleks.nomoredomains.club)_**
+
+IP 158.160.36.89
+Frontend http://mesto-avtor-HohlovAleks.nomoredomains.club
+Backend https://api.mesto-avtor-hohlov-al.nomoredomains.club
