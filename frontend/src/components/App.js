@@ -231,7 +231,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="">
+      <div className="page">
         <Header loggedIn={loggedIn} handleLogout={handleLogout} email={userData.email} />
 
         <Switch>
