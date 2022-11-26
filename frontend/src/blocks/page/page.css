@@ -7,6 +7,6 @@
 
 @media screen and (max-width: 670px) {
   .page {
-    padding: 0px;
+    padding: 0 19px;
   }
 }

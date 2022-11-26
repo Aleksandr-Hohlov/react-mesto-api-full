@@ -7,3 +7,13 @@
   color: #FFFFFF;
 }
 
+@media screen and (max-width: 470px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+
+
