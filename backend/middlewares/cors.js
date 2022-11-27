@@ -9,10 +9,17 @@ const allowedCors = [
   'https://mesto-avtor-hohlovaleks.nomoredomains.club',
   'mesto-avtor-hohlovaleks.nomoredomains.club',
   'http://localhost:3000',
-  'http://mesto-avtor-hohlovaleks.nomoredomains.club/users/me',
   'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club',
   'https://api.mesto-avtor-Hohlov-Al.nomoredomains.club',
   'api.mesto-avtor-Hohlov-Al.nomoredomains.club',
+  'https://mesto-avtor-hohlovaleks.nomoredomains.club/cards',
+  'https://mesto-avtor-hohlovaleks.nomoredomains.club/',
+  'https://mesto-avtor-hohlovaleks.nomoredomains.club/users/me',
+  'https://localhost:3000',
+  'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club/users/me',
+  'https://api.mesto-avtor-Hohlov-Al.nomoredomains.club/users/me',
+  'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club/users',
+  'https://api.mesto-avtor-Hohlov-Al.nomoredomains.club/users',
 ];
 
 const cors = (req, res, next) => {

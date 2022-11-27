@@ -51,7 +51,7 @@ app.use(handleErrors);
 app.listen(PORT);
 
 // ssh aleks123@158.160.36.89
-// http://mesto-avtor-HohlovAleks.nomoredomains.club
+// https://mesto-avtor-HohlovAleks.nomoredomains.club
 // api.mesto-avtor-hohlov-al.nomoredomains.club
 // 69c9b2e92a586e3c693fee194130235a111e68941c5896d14c3f93cea01fbb37
 
@@ -60,8 +60,14 @@ app.listen(PORT);
 // sudo chown -R $USER:www-data /home/aleks123/react-mesto-api-full/frontend/build
 // scp -r ./build/* aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/frontend/build
 // scp ./.env aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/backend
+
+// sudo nano /etc/nginx/sites-available/default
+// sudo nano /etc/nginx/nginx.conf
 // sudo nano ./.env
 // sudo nano ./app.js
-// sudo nano ./cors.js
+// sudo nano ./middlewares/cors.js
+
 // scp -r ./* aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/backend
 // scp -r ./build/* aleks123@158.160.36.89:/home/aleks123/react-mesto-api-full/backend
+// sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/enabled
+// sudo certbot install --cert-name mesto-avtor-HohlovAleks.nomoredomains.club --nginx
