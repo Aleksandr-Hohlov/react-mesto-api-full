@@ -58,16 +58,48 @@ function App() {
     }
   };
 
+  /*получаю карточки с сервера*/
+  React.useEffect(() => {
+    if (loggedIn) {
+      api
+        .getCards()
+        .then((cards) => {
+          setCards(cards);
+          history.push('/');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
+  /*получаю информацию о профиле с сервера*/
+  React.useEffect(() => {
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((currentUser) => {
+          setCurrentUser(currentUser.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
+  /*
   React.useEffect(() => {
     loggedIn &&
       Promise.all([api.getUserInfo(), api.getCards()])
         .then(([currentUser, cards]) => {
+          console.log(currentUser);
           setCurrentUser(currentUser);
           setCards(cards);
           history.push('/');
         })
         .catch((err) => console.log(err));
   }, [loggedIn]);
+  */
 
   const isOpen =
     isEditAvatarPopupOpen ||
@@ -133,7 +165,7 @@ function App() {
     api
       .editAvatar(data.avatar)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
@@ -154,8 +186,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     api
       .likeCard(card._id, !isLiked)
       .then((newCard) => {
@@ -202,15 +233,12 @@ function App() {
   };
 
   const handleRegister = ({ email, password }) => {
-    console.log(email, password);
     auth
       .register(email, password)
-      .then((res) => {
-        if (res.data._id) {
-          setIsDataSet(true);
-          history.push('/sign-in');
-          setTooltipStatus(true);
-        }
+      .then(() => {
+        setIsDataSet(true);
+        history.push('/sign-in');
+        setTooltipStatus(true);
       })
       .catch((err) => {
         setIsDataSet(false);

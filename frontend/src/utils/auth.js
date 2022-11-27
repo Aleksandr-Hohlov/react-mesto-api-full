@@ -1,4 +1,4 @@
-const BASE_URL = 'http://api.mesto-avtor-Hohlov-Al.nomoredomains.club';
+const BASE_URL = 'https://api.mesto-avtor-Hohlov-Al.nomoredomains.club';
 
 const response = (res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
 
