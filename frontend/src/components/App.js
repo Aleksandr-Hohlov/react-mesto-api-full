@@ -227,7 +227,8 @@ function App() {
       })
       .catch((err) => {
         history.push('/sign-in');
-        setTooltipStatus(true);
+        setTooltipStatus(false);
+        setIsInfoToolTipOpen(true);
         console.log(err);
       });
   };
