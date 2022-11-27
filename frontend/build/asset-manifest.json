@@ -1,7 +1,7 @@
 {
-  "main.css": "/static/css/main.60789286.chunk.css",
-  "main.js": "/static/js/main.1ea002fd.chunk.js",
-  "main.js.map": "/static/js/main.1ea002fd.chunk.js.map",
+  "main.css": "/static/css/main.6ea674be.chunk.css",
+  "main.js": "/static/js/main.5c240aa2.chunk.js",
+  "main.js.map": "/static/js/main.5c240aa2.chunk.js.map",
   "static/js/1.6336b426.chunk.js": "/static/js/1.6336b426.chunk.js",
   "static/js/1.6336b426.chunk.js.map": "/static/js/1.6336b426.chunk.js.map",
   "static/js/2.bbd60341.chunk.js": "/static/js/2.bbd60341.chunk.js",
@@ -11,9 +11,9 @@
   "static/media/logo.svg": "/static/media/logo.7baba3c1.svg",
   "static/media/imageSuccess.svg": "/static/media/imageSuccess.e38b395c.svg",
   "static/media/imageError.svg": "/static/media/imageError.4072126c.svg",
-  "static/media/index.css": "/static/media/edit.6bfdb354.svg",
-  "static/css/main.60789286.chunk.css.map": "/static/css/main.60789286.chunk.css.map",
+  "static/media/index.css": "/static/media/Delete_Icon.4831282e.svg",
+  "static/css/main.6ea674be.chunk.css.map": "/static/css/main.6ea674be.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.e16245d2865718255e7e31ce2c67c5c5.js": "/precache-manifest.e16245d2865718255e7e31ce2c67c5c5.js",
+  "precache-manifest.d62ccf730ee13d785e3924636ae6f06d.js": "/precache-manifest.d62ccf730ee13d785e3924636ae6f06d.js",
   "service-worker.js": "/service-worker.js"
 }
